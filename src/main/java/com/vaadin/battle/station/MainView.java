@@ -82,11 +82,6 @@ public class MainView extends AppLayout {
 
     }
 
-    private void Anant()
-    {
-
-    }
-
     private void createHeader(String userName) {
         H1 logo = new H1("Boiler Plate");
         logo.addClassName("logo");
