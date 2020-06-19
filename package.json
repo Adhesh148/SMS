@@ -1,0 +1,21 @@
+{
+  "name": "no-name",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@polymer/polymer": "3.2.0",
+    "@webcomponents/webcomponentsjs": "^2.2.10",
+    "@vaadin/flow-deps": "./target/frontend"
+  },
+  "devDependencies": {
+    "webpack": "4.42.0",
+    "webpack-cli": "3.3.10",
+    "webpack-dev-server": "3.9.0",
+    "webpack-babel-multi-target-plugin": "2.3.3",
+    "copy-webpack-plugin": "5.1.0",
+    "webpack-merge": "4.2.2",
+    "raw-loader": "3.0.0",
+    "compression-webpack-plugin": "3.0.1",
+    "terser": "4.6.7"
+  },
+  "vaadinAppPackageHash": "a097ed089b3c3608a256fb1893b8930431e794edf52180811ecd5172cae89978"
+}
