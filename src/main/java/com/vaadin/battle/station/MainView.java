@@ -51,7 +51,7 @@ public class MainView extends AppLayout {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String userName = "";
         String role = "";
-        int eid =0;
+        int eid = 0;
         if (principal instanceof MyUserDetails) {
             userName = ((MyUserDetails) principal).getUsername();
             role = ((MyUserDetails) principal).getAuthorities().toString();
@@ -72,13 +72,15 @@ public class MainView extends AppLayout {
         RouterLink home = new RouterLink("Home", MainView.class);
         RouterLink dashboard_a = new RouterLink("Dashboard", DashboardAdmin.class);
         RouterLink dashboard_u = new RouterLink("Dashboard", DashboardUser.class);
+        RouterLink deductions_a = new RouterLink("Deductions", DeductionsAdmin.class);
 
         home.addClassName("router-link");
         dashboard_a.addClassName("router-link");
         dashboard_u.addClassName("router-link");
+        deductions_a.addClassName("router-link");
 
         if (role.equalsIgnoreCase("Admin")) {
-            addToDrawer(new VerticalLayout(home, dashboard_a));
+            addToDrawer(new VerticalLayout(home, dashboard_a, deductions_a));
         } else if (role.equalsIgnoreCase("User")) {
             addToDrawer(new VerticalLayout(home, dashboard_u));
         }
