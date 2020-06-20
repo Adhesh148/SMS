@@ -82,7 +82,6 @@ public class MainView extends AppLayout {
         } else if (role.equalsIgnoreCase("User")) {
             addToDrawer(new VerticalLayout(home, dashboard_u));
         }
-
     }
 
     private void createHeader(String userName) {
@@ -117,9 +116,8 @@ public class MainView extends AppLayout {
         header.setWidth("90%");
         header.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
 
-        themeToggle.getStyle().set("padding-left", "30px");
+        themeToggle.getStyle().set("padding-left", "10px");
+        themeToggle.getStyle().set("padding-right", "10px");
         addToNavbar(header, menuBar, themeToggle);
     }
-
-
 }
