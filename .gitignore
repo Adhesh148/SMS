@@ -1,0 +1,8 @@
+/.idea/
+/node_modules/
+/webpack.generated.js
+/build/
+/config/
+/target/
+/package-lock.json
+battle-station.iml

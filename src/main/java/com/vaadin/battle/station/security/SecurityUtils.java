@@ -16,8 +16,6 @@ public final class SecurityUtils {
     }
 
     static boolean isFrameworkInternalRequest(HttpServletRequest request) {
-
-
         final String parameterValue = request.getParameter(ApplicationConstants.REQUEST_TYPE_PARAMETER);
         return parameterValue != null
                 && Stream.of(ServletHelper.RequestType.values())
@@ -25,8 +23,6 @@ public final class SecurityUtils {
     }
 
     static boolean isUserLoggedIn() {
-
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return authentication != null
                 && !(authentication instanceof AnonymousAuthenticationToken)

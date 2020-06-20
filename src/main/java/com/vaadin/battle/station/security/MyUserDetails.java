@@ -25,14 +25,14 @@ public class MyUserDetails implements UserDetails {
     private int id;
     private List<GrantedAuthority> authorities;
 
-    public MyUserDetails(String userName){
+    public MyUserDetails(String userName) {
         this.userName = userName;
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection(url,user,pwd);
+            Connection con = DriverManager.getConnection(url, user, pwd);
             Statement stmt = con.createStatement();
-            String sql = "select id,password,active,roles from user where userName = '"+userName+"';";
+            String sql = "select id,password,active,roles from user where userName = '" + userName + "';";
             ResultSet rs = stmt.executeQuery(sql);
             rs.next();
             this.id = rs.getInt("id");
@@ -40,7 +40,7 @@ public class MyUserDetails implements UserDetails {
             this.active = rs.getBoolean("active");
             this.authorities = Arrays.stream(rs.getString("roles").split(",")).map(SimpleGrantedAuthority::new).collect(Collectors.toList());
 
-        }catch (Exception e){
+        } catch (Exception e) {
             Notification.show(e.getLocalizedMessage());
         }
     }

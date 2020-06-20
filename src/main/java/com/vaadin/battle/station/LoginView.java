@@ -15,7 +15,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
     private LoginForm login = new LoginForm();
 
-    public LoginView(){
+    public LoginView() {
         addClassName("login-view");
         setSizeFull();
         setAlignItems(FlexComponent.Alignment.CENTER);
@@ -28,7 +28,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
     @Override
     public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
         // inform the user about an authentication error
-        if(beforeEnterEvent.getLocation()
+        if (beforeEnterEvent.getLocation()
                 .getQueryParameters()
                 .getParameters()
                 .containsKey("error")) {
