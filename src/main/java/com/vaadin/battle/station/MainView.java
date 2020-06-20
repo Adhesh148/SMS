@@ -1,5 +1,6 @@
 package com.vaadin.battle.station;
 
+import com.vaadin.battle.station.security.MyUserDetails;
 import com.vaadin.componentfactory.ToggleButton;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.UI;
@@ -50,10 +51,12 @@ public class MainView extends AppLayout {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String userName = "";
         String role = "";
-        if (principal instanceof UserDetails) {
-            userName = ((UserDetails) principal).getUsername();
-            role = ((UserDetails) principal).getAuthorities().toString();
+        int eid =0;
+        if (principal instanceof MyUserDetails) {
+            userName = ((MyUserDetails) principal).getUsername();
+            role = ((MyUserDetails) principal).getAuthorities().toString();
             role = role.substring(1, role.length() - 1);
+            eid = ((MyUserDetails) principal).getEid();
         }
 
         heading.addClassName("main-heading");
