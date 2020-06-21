@@ -4,6 +4,7 @@ import com.vaadin.battle.station.backend.Employee;
 import com.vaadin.battle.station.backend.Salary;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.grid.Grid;
@@ -53,10 +54,24 @@ public class SalaryBill extends VerticalLayout
     ComboBox filter = new ComboBox("Search by name");
     ComboBox idFilter = new ComboBox("Search by id");
 
+
+
     Button button = new Button("Show All");
-    Button half1 = new Button("JAN - JUN");
-    Button half2 = new Button("JUL - DEC");
-    Button full = new Button("THIS YEAR");
+    Button half1 = new Button("JAN " + LocalDate.now().getYear() + " - JUN " + LocalDate.now().getYear());
+    Button half2 = new Button("JUL " + LocalDate.now().getYear()+ "- DEC " + LocalDate.now().getYear());
+
+    Button prevHalf1 = new Button("JAN " + LocalDate.now().minusYears(1).getYear() + " - JUN " + LocalDate.now().minusYears(1).getYear());
+    Button prevHalf2 = new Button("JUL " + LocalDate.now().minusYears(1).getYear() + " - DEC " + LocalDate.now().minusYears(1).getYear());
+
+    Button prevHalf12 = new Button("JAN " + LocalDate.now().minusYears(2).getYear() + " - JUN " + LocalDate.now().minusYears(2).getYear());
+    Button prevHalf22 = new Button("JUL " + LocalDate.now().minusYears(2).getYear() + " - DEC " + LocalDate.now().minusYears(2).getYear());
+
+
+    Button full = new Button(String.valueOf(LocalDate.now().getYear()));
+    Button prevFull = new Button(String.valueOf(LocalDate.now().minusYears(1).getYear()));
+    Button prevFull2 = new Button(String.valueOf(LocalDate.now().minusYears(2).getYear()));
+
+    Button nextFull = new Button(String.valueOf(LocalDate.now().plusYears(1).getYear()));
 
     Button year = new Button("YEAR");
 
@@ -105,19 +120,57 @@ public class SalaryBill extends VerticalLayout
         half1.addClickListener(e -> start.setValue(h11));
         half1.addClickListener(e -> end.setValue(h12));
         half1.addClickListener(e -> end.setValue(h12));
-        half1.addThemeName(Lumo.LIGHT);
+        half1.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
         half2.addClickListener(e -> start.setValue(h21));
         half2.addClickListener(e -> start.setValue(h21));
         half2.addClickListener(e -> end.setValue(h22));
         half2.addClickListener(e -> end.setValue(h22));
-        half2.addThemeName(Lumo.LIGHT);
+        half2.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+
+        prevHalf1.addClickListener(e -> start.setValue(h11.minusYears(1)));
+        prevHalf1.addClickListener(e -> start.setValue(h11.minusYears(1)));
+        prevHalf1.addClickListener(e -> end.setValue(h12.minusYears(1)));
+        prevHalf1.addClickListener(e -> end.setValue(h12.minusYears(1)));
+        prevHalf1.addThemeName(Lumo.LIGHT);
+
+        prevHalf2.addClickListener(e -> start.setValue(h21.minusYears(1)));
+        prevHalf2.addClickListener(e -> start.setValue(h21.minusYears(1)));
+        prevHalf2.addClickListener(e -> end.setValue(h22.minusYears(1)));
+        prevHalf2.addClickListener(e -> end.setValue(h22.minusYears(1)));
+        prevHalf2.addThemeName(Lumo.LIGHT);
+
+        prevHalf12.addClickListener(e -> start.setValue(h11.minusYears(1)));
+        prevHalf12.addClickListener(e -> start.setValue(h11.minusYears(1)));
+        prevHalf12.addClickListener(e -> end.setValue(h12.minusYears(1)));
+        prevHalf12.addClickListener(e -> end.setValue(h12.minusYears(1)));
+        prevHalf12.addThemeName(Lumo.LIGHT);
+
+        prevHalf22.addClickListener(e -> start.setValue(h21.minusYears(2)));
+        prevHalf22.addClickListener(e -> start.setValue(h21.minusYears(2)));
+        prevHalf22.addClickListener(e -> end.setValue(h22.minusYears(2)));
+        prevHalf22.addClickListener(e -> end.setValue(h22.minusYears(2)));
+        prevHalf22.addThemeName(Lumo.LIGHT);
+
+
+        prevFull.addClickListener(e -> start.setValue(h11.minusYears(1)));
+        prevFull.addClickListener(e -> start.setValue(h11.minusYears(1)));
+        prevFull.addClickListener(e -> end.setValue(h22.minusYears(1)));
+        prevFull.addClickListener(e -> end.setValue(h22.minusYears(1)));
+        prevFull.addThemeName(Lumo.LIGHT);
+
+        prevFull2.addClickListener(e -> start.setValue(h11.minusYears(2)));
+        prevFull2.addClickListener(e -> start.setValue(h11.minusYears(2)));
+        prevFull2.addClickListener(e -> end.setValue(h22.minusYears(2)));
+        prevFull2.addClickListener(e -> end.setValue(h22.minusYears(2)));
+        prevFull2.addThemeName(Lumo.LIGHT);
 
         full.addClickListener(e -> start.setValue(h11));
         full.addClickListener(e -> start.setValue(h11));
         full.addClickListener(e -> end.setValue(h22));
         full.addClickListener(e -> end.setValue(h22));
-        full.addThemeName(Lumo.LIGHT);
+        full.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+
 
 
        // filter.addValueChangeListener(e -> setID());
@@ -135,16 +188,19 @@ public class SalaryBill extends VerticalLayout
         filterLine.setAlignItems(Alignment.BASELINE);
 
         HorizontalLayout dateLine = new HorizontalLayout();
-        dateLine.add(start, end, half1, half2, full);
+        dateLine.add(start, end, prevFull2, prevFull, full);
         dateLine.setAlignItems(Alignment.BASELINE);
 
+        HorizontalLayout dateLine2 = new HorizontalLayout();
+        dateLine2.add(prevHalf12, prevHalf22, prevHalf1, prevHalf2, half1, half2);
+
         show_total.addClickListener(e -> fillSalaryGridTotalPerHead());
         show_total.addClickListener(e -> fillSalaryGridTotalPerHead());
 
-        show_month.addClickListener(e -> fillSalaryGrid());
-        show_month.addClickListener(e -> fillSalaryGrid());
+        show_month.addClickListener(e -> fillSalaryGridFilter(filter));
+        show_month.addClickListener(e -> fillSalaryGridFilter(filter));
 
-        add(Title, SALARY, new VerticalLayout(dateLine, filterLine), new HorizontalLayout(show_total, show_month), salaryGrid);
+        add(Title, SALARY, new VerticalLayout(dateLine, dateLine2, filterLine), new HorizontalLayout(show_total, show_month), salaryGrid);
     }
 
     private void setID()

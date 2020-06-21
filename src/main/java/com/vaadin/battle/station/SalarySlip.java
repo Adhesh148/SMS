@@ -57,9 +57,9 @@ public class SalarySlip extends VerticalLayout
     ComboBox idFilter = new ComboBox("Search by id");
 
     Button button = new Button("Show All");
-    Button half1 = new Button("JAN - JUN");
-    Button half2 = new Button("JUL - DEC");
-    Button full = new Button("THIS YEAR");
+    Button half1 = new Button("JAN " + LocalDate.now().getYear() + " - JUN " + LocalDate.now().getYear());
+    Button half2 = new Button("JUL " + LocalDate.now().getYear()+ " - DEC " + LocalDate.now().getYear());
+    Button full = new Button(String.valueOf(LocalDate.now().getYear()));
 
     Button thisMonth = new Button("THIS MONTH");
     Button prevMonth = new Button("PREV MONTH");
