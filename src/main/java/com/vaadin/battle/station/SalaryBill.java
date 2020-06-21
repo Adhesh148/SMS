@@ -61,6 +61,8 @@ public class SalaryBill extends VerticalLayout
     Button year = new Button("YEAR");
 
     Button show_total = new Button("Headwise Total");
+    Button show_month = new Button("Separate Payments");
+
     Text SALARY = new Text("TOTAL SALARY" + "     ");
     Text TDS = new Text("TOTAL TDS");
 
@@ -139,7 +141,10 @@ public class SalaryBill extends VerticalLayout
         show_total.addClickListener(e -> fillSalaryGridTotalPerHead());
         show_total.addClickListener(e -> fillSalaryGridTotalPerHead());
 
-        add(Title, SALARY, new VerticalLayout(dateLine, filterLine), show_total, salaryGrid);
+        show_month.addClickListener(e -> fillSalaryGrid());
+        show_month.addClickListener(e -> fillSalaryGrid());
+
+        add(Title, SALARY, new VerticalLayout(dateLine, filterLine), new HorizontalLayout(show_total, show_month), salaryGrid);
     }
 
     private void setID()
@@ -357,6 +362,7 @@ public class SalaryBill extends VerticalLayout
                 salaryGrid.getColumnByKey("pay_date")
 
         );
+
     }
 
 
