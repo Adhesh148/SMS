@@ -50,8 +50,8 @@ public class Salary
         return deductions;
     }
 
-    public int setEid(int eid) {
-        return this.eid = eid;
+    public void setEid(int eid) {
+        this.eid = eid;
     }
 
     public float getHra() {

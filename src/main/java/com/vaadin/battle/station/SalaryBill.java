@@ -103,8 +103,10 @@ public class SalaryBill extends VerticalLayout
 
         start.addValueChangeListener(e -> end.setEnabled(true));
         start.addValueChangeListener(e -> end.setMin(start.getValue()));
-        end.addValueChangeListener(e -> fillSalaryGrid());
-        end.addValueChangeListener(e -> fillSalaryGrid());
+        start.addValueChangeListener(e -> fillSalaryGridFilter(filter));
+        start.addValueChangeListener(e -> fillSalaryGridFilter(filter));
+        end.addValueChangeListener(e -> fillSalaryGridFilter(filter));
+        end.addValueChangeListener(e -> fillSalaryGridFilter(filter));
         end.addValueChangeListener(e -> textUpdate());
 
         LocalDate thisYear = LocalDate.now();
@@ -118,36 +120,42 @@ public class SalaryBill extends VerticalLayout
         half1.addClickListener(e -> start.setValue(h11));
         half1.addClickListener(e -> end.setValue(h12));
         half1.addClickListener(e -> end.setValue(h12));
+        half1.addClickListener(e -> fillSalaryGridFilter(filter));
         half1.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
         half2.addClickListener(e -> start.setValue(h21));
         half2.addClickListener(e -> start.setValue(h21));
         half2.addClickListener(e -> end.setValue(h22));
         half2.addClickListener(e -> end.setValue(h22));
+        half2.addClickListener(e -> fillSalaryGridFilter(filter));
         half2.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
         prevHalf1.addClickListener(e -> start.setValue(h11.minusYears(1)));
         prevHalf1.addClickListener(e -> start.setValue(h11.minusYears(1)));
         prevHalf1.addClickListener(e -> end.setValue(h12.minusYears(1)));
         prevHalf1.addClickListener(e -> end.setValue(h12.minusYears(1)));
+        prevHalf1.addClickListener(e -> fillSalaryGridFilter(filter));
         prevHalf1.addThemeName(Lumo.LIGHT);
 
         prevHalf2.addClickListener(e -> start.setValue(h21.minusYears(1)));
         prevHalf2.addClickListener(e -> start.setValue(h21.minusYears(1)));
         prevHalf2.addClickListener(e -> end.setValue(h22.minusYears(1)));
         prevHalf2.addClickListener(e -> end.setValue(h22.minusYears(1)));
+        prevHalf2.addClickListener(e -> fillSalaryGridFilter(filter));
         prevHalf2.addThemeName(Lumo.LIGHT);
 
         prevHalf12.addClickListener(e -> start.setValue(h11.minusYears(1)));
         prevHalf12.addClickListener(e -> start.setValue(h11.minusYears(1)));
         prevHalf12.addClickListener(e -> end.setValue(h12.minusYears(1)));
         prevHalf12.addClickListener(e -> end.setValue(h12.minusYears(1)));
+        prevHalf12.addClickListener(e -> fillSalaryGridFilter(filter));
         prevHalf12.addThemeName(Lumo.LIGHT);
 
         prevHalf22.addClickListener(e -> start.setValue(h21.minusYears(2)));
         prevHalf22.addClickListener(e -> start.setValue(h21.minusYears(2)));
         prevHalf22.addClickListener(e -> end.setValue(h22.minusYears(2)));
         prevHalf22.addClickListener(e -> end.setValue(h22.minusYears(2)));
+        prevHalf22.addClickListener(e -> fillSalaryGridFilter(filter));
         prevHalf22.addThemeName(Lumo.LIGHT);
 
 
@@ -155,18 +163,21 @@ public class SalaryBill extends VerticalLayout
         prevFull.addClickListener(e -> start.setValue(h11.minusYears(1)));
         prevFull.addClickListener(e -> end.setValue(h22.minusYears(1)));
         prevFull.addClickListener(e -> end.setValue(h22.minusYears(1)));
+        prevFull.addClickListener(e -> fillSalaryGridFilter(filter));
         prevFull.addThemeName(Lumo.LIGHT);
 
         prevFull2.addClickListener(e -> start.setValue(h11.minusYears(2)));
         prevFull2.addClickListener(e -> start.setValue(h11.minusYears(2)));
         prevFull2.addClickListener(e -> end.setValue(h22.minusYears(2)));
         prevFull2.addClickListener(e -> end.setValue(h22.minusYears(2)));
+        prevFull2.addClickListener(e -> fillSalaryGridFilter(filter));
         prevFull2.addThemeName(Lumo.LIGHT);
 
         full.addClickListener(e -> start.setValue(h11));
         full.addClickListener(e -> start.setValue(h11));
         full.addClickListener(e -> end.setValue(h22));
         full.addClickListener(e -> end.setValue(h22));
+        full.addClickListener(e -> fillSalaryGridFilter(filter));
         full.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
 
@@ -200,69 +211,6 @@ public class SalaryBill extends VerticalLayout
         show_month.addClickListener(e -> fillSalaryGridFilter(filter));
 
         add(Title, SALARY, new VerticalLayout(dateLine, dateLine2, filterLine), new HorizontalLayout(show_total, show_month), salaryGrid);
-    }
-
-    private void setID()
-    {
-        try{
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection(url, user, pwd);
-            Statement stmt = con.createStatement();
-            String sql;
-            ResultSet rs;
-            // Find the number of distinct batches.
-            sql = "select distinct eid from employees where ename = '" + filter.getValue() + "'";
-            rs = stmt.executeQuery(sql);
-
-            Collection data = new ArrayList<>();
-
-
-
-            while(rs.next())
-            {
-                String entry;
-                entry = rs.getString("eid");
-
-                data.add(entry);
-            }
-            idFilter.setItems(data);
-        }catch(Exception e){
-            e.getLocalizedMessage();
-        }
-    }
-
-    private void setName()
-    {
-        try{
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection(url, user, pwd);
-            Statement stmt = con.createStatement();
-            String sql;
-            ResultSet rs;
-            // Find the number of distinct batches.
-            sql = "select distinct ename from employees where eid = '" + idFilter.getValue() + "'";
-            rs = stmt.executeQuery(sql);
-
-            Collection data = new ArrayList<>();
-
-
-
-            while(rs.next())
-            {
-                String entry;
-                entry = rs.getString("ename");
-
-                data.add(entry);
-
-                filter.setValue(entry);
-
-            }
-            filter.setItems(data);
-
-
-        }catch(Exception e){
-            e.getLocalizedMessage();
-        }
     }
 
     private void fillSalaryGridFilter(ComboBox filter)
@@ -426,7 +374,7 @@ public class SalaryBill extends VerticalLayout
         );
 
 
-        salaryGrid.getColumnByKey("eid").setHeader("Employee ID");
+        salaryGrid.getColumnByKey("eid").setHeader("EID");
         salaryGrid.getColumnByKey("ename").setHeader("Name");
         salaryGrid.getColumnByKey("base_sal").setHeader("Basic");
         salaryGrid.getColumnByKey("da").setHeader("DA");

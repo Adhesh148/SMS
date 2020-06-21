@@ -54,7 +54,6 @@ public class SalarySlip extends VerticalLayout
     DatePicker end = new DatePicker();
 
     ComboBox filter = new ComboBox("Search by name");
-    ComboBox idFilter = new ComboBox("Search by id");
 
     Button button = new Button("Show All");
     Button half1 = new Button("JAN " + LocalDate.now().getYear() + " - JUN " + LocalDate.now().getYear());
@@ -110,6 +109,8 @@ public class SalarySlip extends VerticalLayout
         start.addValueChangeListener(e -> end.setMin(start.getValue()));
         start.addValueChangeListener(e -> nextMonth.setEnabled(false));
         start.addValueChangeListener(e -> prevMonth.setEnabled(false));
+        start.addValueChangeListener(e -> fillSalaryGrid());
+        start.addValueChangeListener(e -> fillSalaryGrid());
 
         end.addValueChangeListener(e -> fillSalaryGrid());
         end.addValueChangeListener(e -> fillSalaryGrid());
@@ -143,6 +144,7 @@ public class SalarySlip extends VerticalLayout
         full.addClickListener(e -> start.setValue(h11));
         full.addClickListener(e -> end.setValue(h22));
         full.addClickListener(e -> end.setValue(h22));
+        full.addClickListener(e -> fillSalaryGrid());
         full.addThemeName(Lumo.LIGHT);
 
 
@@ -154,6 +156,7 @@ public class SalarySlip extends VerticalLayout
         thisMonth.addClickListener(e -> end.setValue(month2));
         thisMonth.addClickListener(e -> nextMonth.setEnabled(true));
         thisMonth.addClickListener(e -> prevMonth.setEnabled(true));
+        thisMonth.addClickListener(e -> fillSalaryGrid());
         thisMonth.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
         prevMonth.addClickListener(e -> start.setValue(start.getValue().minusMonths(1)));
@@ -161,13 +164,17 @@ public class SalarySlip extends VerticalLayout
         nextMonth.addClickListener(e -> start.setValue(start.getValue().plusMonths(1)));
         nextMonth.addClickListener(e -> end.setValue(start.getValue().plusMonths(1).minusDays(1)));
 
+
         prevMonth.addClickListener(e -> prevMonth.setEnabled(true));
         prevMonth.addClickListener(e -> nextMonth.setEnabled(true));
+        prevMonth.addClickListener(e -> fillSalaryGrid());
         prevMonth.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+
 
 
         nextMonth.addClickListener(e -> prevMonth.setEnabled(true));
         nextMonth.addClickListener(e -> nextMonth.setEnabled(true));
+        nextMonth.addClickListener(e -> fillSalaryGrid());
         nextMonth.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
 
@@ -223,7 +230,7 @@ public class SalarySlip extends VerticalLayout
         );
 
 
-        salaryGrid.getColumnByKey("eid").setHeader("Employee ID");
+        salaryGrid.getColumnByKey("eid").setHeader("EID");
         salaryGrid.getColumnByKey("ename").setHeader("Name");
         salaryGrid.getColumnByKey("base_sal").setHeader("Basic");
         salaryGrid.getColumnByKey("da").setHeader("DA");
@@ -326,7 +333,6 @@ public class SalarySlip extends VerticalLayout
 
             while(rs.next())
             {
-
 
                 Salary entry = new Salary();
 
