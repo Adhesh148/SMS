@@ -55,4 +55,93 @@
     color: black;
 }
 
+.faculty-tax-u .faculty-content{
+    display:flex;
+}
+
+.faculty-admin-heading{
+   font-size:37px;
+   font-weight:900;
+   margin-bottom:-20px;
+}
+
+.faculty-admin-message{
+     font-size:17px;
+}
+
+
+.quote{
+    font-style:italic;
+}
+
+.guideline{
+    font-weight:bold;
+    font-size:1em;
+}
+
+.space-below{
+    padding-bottom: 25px;
+    width:300px
+}
+
+.bolden{
+font-weight:bold;
+}
+
+.userDetails-form{
+     margin-top: 25px;
+     padding-left: 30px;
+     padding-top: 40px;
+     border-width: thin 0.1em;
+     border-style: solid;
+     border-color:#E8E8E8;
+     border-radius: 10px;
+}
+
+.password-form{
+     margin-top: 25px;
+     padding-left: 30px;
+     padding-top: 40px;
+     border-width: thin 0.1em;
+     border-style: solid;
+     border-color:#E8E8E8;
+     border-radius: 10px;
+}
+
+.password-guideline{
+    padding-bottom: 25px;
+    width:300px
+    font-size:1.2em;
+    font-weight:bold;
+}
+
+.password-button{
+        padding-top:10px;
+}
+
+.dashboard-panel{
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    width:250px;
+
+}
+
+.dashboard-panel .stat{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 2.0em;
+    font-weight : bold;
+}
+
+.dashboard-panel .detail{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 1.25em;
+}
+
+.dashboard-card{
+    margin-left: auto;
+    margin-right: auto;
+}
 

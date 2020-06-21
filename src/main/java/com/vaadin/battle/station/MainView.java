@@ -72,15 +72,27 @@ public class MainView extends AppLayout {
         RouterLink home = new RouterLink("Home", MainView.class);
         RouterLink dashboard_a = new RouterLink("Dashboard", DashboardAdmin.class);
         RouterLink dashboard_u = new RouterLink("Dashboard", DashboardUser.class);
+        RouterLink empl_a = new RouterLink("Employees",EmployeeView.class);
+        RouterLink basic_sal = new RouterLink("View Basic Pay",BasicSalary.class);
+        RouterLink deductions = new RouterLink("Deductions",DeductionsAdmin.class);
+        RouterLink tax_a = new RouterLink("Tax Invoice",Tax_admin.class);
+        RouterLink tax_u = new RouterLink("Tax Invoice",Tax_faculty.class);
+        RouterLink salBill = new RouterLink("Pay Slip",SalaryBill.class);
 
         home.addClassName("router-link");
         dashboard_a.addClassName("router-link");
         dashboard_u.addClassName("router-link");
+        empl_a.addClassName("router-link");
+        basic_sal.addClassName("router-link");
+        deductions.addClassName("router-link");
+        tax_a.addClassName("router-link");
+        tax_u.addClassName("router-link");
+        salBill.addClassName("router-link");
 
         if (role.equalsIgnoreCase("Admin")) {
-            addToDrawer(new VerticalLayout(home, dashboard_a));
+            addToDrawer(new VerticalLayout(home, dashboard_a,empl_a,basic_sal,deductions,tax_a,salBill));
         } else if (role.equalsIgnoreCase("User")) {
-            addToDrawer(new VerticalLayout(home, dashboard_u));
+            addToDrawer(new VerticalLayout(home, dashboard_u,tax_u));
         }
     }
 
