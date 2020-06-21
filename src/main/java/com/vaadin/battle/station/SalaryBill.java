@@ -505,32 +505,16 @@ public class SalaryBill extends VerticalLayout
                 entry.setDa(rs.getFloat("da"));
                 entry.setArrear(rs.getFloat("arrear"));
                 entry.setHra(rs.getFloat("hra"));
-
-                if(filter.getValue() == null)
-                    entry.setPay_date(null);
-                else
-                    entry.setPay_date(rs.getDate("pay_date"));
-
+                entry.setPay_date(null);
                 entry.setDeductions(rs.getFloat("deductions"));
                 entry.setLicense_fee(rs.getFloat("license_fee"));
                 total = entry.getBase_sal() + entry.getTa() + entry.getArrear() + entry.getTds() + entry.getHra() + entry.getDa() - entry.getDeductions() - entry.getLicense_fee();
                 entry.setTotal(total);
 
-                if (entry.getPay_date() != null) {
-                    pd = entry.getPay_date();
 
+                total_salary += total;
+                total_tds += entry.getTds();
 
-                    LocalDate payDate = convertToLocalDateViaMillisecond(pd);
-
-                    if ((end.getValue().isAfter(payDate) || end.getValue().isEqual(payDate)) && (start.getValue().isBefore(payDate) || start.getValue().isEqual(payDate))) {
-
-                        total_salary += total;
-                        total_tds += entry.getTds();
-
-                        data.add(entry);
-
-                    }
-                }
 
                 data.add(entry);
             }
