@@ -2,6 +2,7 @@ package com.vaadin.battle.station;
 
 import com.vaadin.battle.station.backend.Employee;
 import com.vaadin.battle.station.backend.Salary;
+import com.vaadin.battle.station.security.MyUserDetails;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -22,6 +23,7 @@ import com.vaadin.flow.data.provider.hierarchy.HierarchicalDataProvider;
 import com.vaadin.flow.data.provider.hierarchy.HierarchicalQuery;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.lumo.Lumo;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.swing.*;
 import java.sql.Connection;
@@ -76,8 +78,22 @@ public class SalarySlip extends VerticalLayout
     int total_salary = 0;
     int total_tds = 0;
 
+    Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    String userName = "";
+    String role = "";
+    int eid = 0;
+
     public SalarySlip()
     {
+
+        if (principal instanceof MyUserDetails)
+        {
+            userName = ((MyUserDetails) principal).getUsername();
+            role = ((MyUserDetails) principal).getAuthorities().toString();
+            role = role.substring(1, role.length() - 1);
+            eid = ((MyUserDetails) principal).getEid();
+        }
+
         addClassName("salary-bill");
 
         configureGrid();
@@ -223,7 +239,7 @@ public class SalarySlip extends VerticalLayout
             Connection con = DriverManager.getConnection(url, user, pwd);
             Statement stmt = con.createStatement();
 
-            String sql = "select salary.eid, ename, base_sal, da, pay_date, hra, arrear, ta, tds, license_fee, deductions from salary inner join employees e on salary.eid = e.eid where e.eid = 1";
+            String sql = "select salary.eid, ename, base_sal, da, pay_date, hra, arrear, ta, tds, license_fee, deductions from salary inner join employees e on salary.eid = e.eid where e.eid = " + eid;
             ResultSet rs = stmt.executeQuery(sql);
 
             Collection<Salary> data = new ArrayList<>();
@@ -288,7 +304,7 @@ public class SalarySlip extends VerticalLayout
             Connection con = DriverManager.getConnection(url, user, pwd);
             Statement stmt = con.createStatement();
 
-            String sql = "select salary.eid, ename, SUM(base_sal) as base_sal, SUM(da) as da, SUM(ta) as ta, SUM(tds) as tds, SUM(license_fee) as license_fee, SUM(deductions) as deductions, SUM(arrear) as arrear, SUM(hra) as hra from salary inner join employees e on salary.eid = e.eid where e.eid = 1 GROUP BY e.eid;";
+            String sql = "select salary.eid, ename, SUM(base_sal) as base_sal, SUM(da) as da, SUM(ta) as ta, SUM(tds) as tds, SUM(license_fee) as license_fee, SUM(deductions) as deductions, SUM(arrear) as arrear, SUM(hra) as hra from salary inner join employees e on salary.eid = e.eid where e.eid = " + eid +" GROUP BY e.eid;";
             ResultSet rs = stmt.executeQuery(sql);
 
             Collection<Salary> data = new ArrayList<>();
