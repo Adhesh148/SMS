@@ -408,18 +408,33 @@ public class SalaryBill extends VerticalLayout
                 salaryGrid.getColumnByKey("ename"),
                 salaryGrid.getColumnByKey("base_sal"),
                 salaryGrid.getColumnByKey("da"),
-                salaryGrid.getColumnByKey("deductions"),
                 salaryGrid.getColumnByKey("hra"),
-                salaryGrid.getColumnByKey("license_fee"),
-                salaryGrid.getColumnByKey("arrear"),
                 salaryGrid.getColumnByKey("ta"),
                 salaryGrid.getColumnByKey("tds"),
+                salaryGrid.getColumnByKey("arrear"),
+                salaryGrid.getColumnByKey("license_fee"),
+                salaryGrid.getColumnByKey("deductions"),
                 salaryGrid.getColumnByKey("total"),
                 salaryGrid.getColumnByKey("pay_date")
 
         );
 
+
+        salaryGrid.getColumnByKey("eid").setHeader("Employee ID");
+        salaryGrid.getColumnByKey("ename").setHeader("Name");
+        salaryGrid.getColumnByKey("base_sal").setHeader("Basic");
+        salaryGrid.getColumnByKey("da").setHeader("DA");
+        salaryGrid.getColumnByKey("deductions").setHeader("Deductions");
+        salaryGrid.getColumnByKey("hra").setHeader("HRA");
+        salaryGrid.getColumnByKey("license_fee").setHeader("License Fee");
+        salaryGrid.getColumnByKey("arrear").setHeader("Arrear");
+        salaryGrid.getColumnByKey("ta").setHeader("TA");
+        salaryGrid.getColumnByKey("tds").setHeader("TDS");
+        salaryGrid.getColumnByKey("total").setHeader("Total");
+        salaryGrid.getColumnByKey("pay_date").setHeader("Payment Date");
+
     }
+
 
 
     private void fillSalaryGrid()
