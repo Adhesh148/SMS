@@ -37,7 +37,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.stream.Stream;
 
-@Route("SalaryBill")
+@Route(value = "SalaryBill", layout = MainView.class)
 public class SalaryBill extends VerticalLayout
 {
     String url = "jdbc:mysql://localhost:3306/dbmsendsem";
@@ -53,8 +53,6 @@ public class SalaryBill extends VerticalLayout
 
     ComboBox filter = new ComboBox("Search by name");
     ComboBox idFilter = new ComboBox("Search by id");
-
-
 
     Button button = new Button("Show All");
     Button half1 = new Button("JAN " + LocalDate.now().getYear() + " - JUN " + LocalDate.now().getYear());
@@ -83,8 +81,8 @@ public class SalaryBill extends VerticalLayout
 
     Date pd = new Date();
 
-    int total_salary = 0;
-    int total_tds = 0;
+    float total_salary = 0;
+    float total_tds = 0;
 
     public SalaryBill()
     {
@@ -181,6 +179,7 @@ public class SalaryBill extends VerticalLayout
 
         button.addClickListener(e -> fillSalaryGrid());
         button.addClickListener(e -> fillSalaryGrid());
+        button.addClickListener(e -> filter.setValue(null));
         button.addThemeName(Lumo.DARK);
 
         HorizontalLayout filterLine = new HorizontalLayout();
@@ -268,7 +267,7 @@ public class SalaryBill extends VerticalLayout
 
     private void fillSalaryGridFilter(ComboBox filter)
     {
-        int total =0;
+        float total =0;
         total_tds = 0;
         total_salary =0;
 
@@ -280,8 +279,15 @@ public class SalaryBill extends VerticalLayout
             Connection con = DriverManager.getConnection(url, user, pwd);
             Statement stmt = con.createStatement();
 
-            String sql = "select salary.eid, ename, base_sal, da, pay_date, hra, arrear, ta, tds, license_fee, deductions from salary inner join employees e on salary.eid = e.eid where ename = '" + filter.getValue() + "'";
-            ResultSet rs = stmt.executeQuery(sql);
+            String sql;
+
+            if(filter.getValue() != null) {
+                sql = "select salary.eid, ename, base_sal, da, pay_date, hra, arrear, ta, tds, license_fee, deductions from salary inner join employees e on salary.eid = e.eid where ename = '" + filter.getValue() + "'";
+            }
+            else {
+                sql = "select salary.eid, ename, base_sal, da, pay_date, hra, arrear, ta, tds, license_fee, deductions from salary inner join employees e on salary.eid = e.eid";
+            }
+                ResultSet rs = stmt.executeQuery(sql);
 
             Collection<Salary> data = new ArrayList<>();
 
@@ -291,15 +297,15 @@ public class SalaryBill extends VerticalLayout
 
                 entry.setEname(rs.getString("ename"));
                 entry.setEid(rs.getInt("eid"));
-                entry.setBase_sal(rs.getInt("base_sal"));
-                entry.setTds(rs.getInt("tds"));
-                entry.setTa(rs.getInt("ta"));
-                entry.setDa(rs.getInt("da"));
-                entry.setArrear(rs.getInt("arrear"));
-                entry.setHra(rs.getInt("hra"));
+                entry.setBase_sal(rs.getFloat("base_sal"));
+                entry.setTds(rs.getFloat("tds"));
+                entry.setTa(rs.getFloat("ta"));
+                entry.setDa(rs.getFloat("da"));
+                entry.setArrear(rs.getFloat("arrear"));
+                entry.setHra(rs.getFloat("hra"));
                 entry.setPay_date(rs.getDate("pay_date"));
-                entry.setDeductions(rs.getInt("deductions"));
-                entry.setLicense_fee(rs.getInt("license_fee"));
+                entry.setDeductions(rs.getFloat("deductions"));
+                entry.setLicense_fee(rs.getFloat("license_fee"));
                 total = entry.getBase_sal() + entry.getTa() + entry.getArrear() + entry.getTds() + entry.getHra() + entry.getDa() - entry.getDeductions() - entry.getLicense_fee();
                 entry.setTotal(total);
 
@@ -439,7 +445,7 @@ public class SalaryBill extends VerticalLayout
 
     private void fillSalaryGrid()
     {
-        int total;
+        float total;
 
         total_salary = 0;
         total_tds = 0;
@@ -464,15 +470,15 @@ public class SalaryBill extends VerticalLayout
 
                 entry.setEname(rs.getString("ename"));
                 entry.setEid(rs.getInt("eid"));
-                entry.setBase_sal(rs.getInt("base_sal"));
-                entry.setTds(rs.getInt("tds"));
-                entry.setTa(rs.getInt("ta"));
-                entry.setDa(rs.getInt("da"));
-                entry.setArrear(rs.getInt("arrear"));
-                entry.setHra(rs.getInt("hra"));
+                entry.setBase_sal(rs.getFloat("base_sal"));
+                entry.setTds(rs.getFloat("tds"));
+                entry.setTa(rs.getFloat("ta"));
+                entry.setDa(rs.getFloat("da"));
+                entry.setArrear(rs.getFloat("arrear"));
+                entry.setHra(rs.getFloat("hra"));
                 entry.setPay_date(rs.getDate("pay_date"));
-                entry.setDeductions(rs.getInt("deductions"));
-                entry.setLicense_fee(rs.getInt("license_fee"));
+                entry.setDeductions(rs.getFloat("deductions"));
+                entry.setLicense_fee(rs.getFloat("license_fee"));
                 total = entry.getBase_sal() + entry.getTa() + entry.getArrear() + entry.getTds() + entry.getHra() + entry.getDa() - entry.getDeductions() - entry.getLicense_fee();
                 entry.setTotal(total);
 
@@ -507,7 +513,7 @@ public class SalaryBill extends VerticalLayout
 
     private void fillSalaryGridTotalPerHead()
     {
-        int total;
+        Float total;
 
         total_salary = 0;
         total_tds = 0;
@@ -522,7 +528,16 @@ public class SalaryBill extends VerticalLayout
             Connection con = DriverManager.getConnection(url, user, pwd);
             Statement stmt = con.createStatement();
 
-            String sql = "select salary.eid, ename, SUM(base_sal) as base_sal, SUM(da) as da, SUM(ta) as ta, SUM(tds) as tds, SUM(license_fee) as license_fee, SUM(deductions) as deductions, SUM(arrear) as arrear, SUM(hra) as hra from salary inner join employees e on salary.eid = e.eid GROUP BY e.eid";
+            String sql;
+
+            if(filter.getValue() == null) {
+                sql = "select salary.eid, ename, SUM(base_sal) as base_sal, SUM(da) as da, SUM(ta) as ta, SUM(tds) as tds, SUM(license_fee) as license_fee, SUM(deductions) as deductions, SUM(arrear) as arrear, SUM(hra) as hra from salary inner join employees e on salary.eid = e.eid where pay_date between '" + start.getValue() + "' and '"+ end.getValue() +"' GROUP BY e.eid";
+            }
+            else
+            {
+                sql = "select salary.eid, ename, SUM(base_sal) as base_sal, SUM(da) as da, SUM(ta) as ta, SUM(tds) as tds, SUM(license_fee) as license_fee, SUM(deductions) as deductions, SUM(arrear) as arrear, SUM(hra) as hra from salary inner join employees e on salary.eid = e.eid where e.ename = '"+ filter.getValue() + "' and pay_date between '" + start.getValue() + "' and '"+ end.getValue() +"' GROUP BY e.eid";
+            }
+
             ResultSet rs = stmt.executeQuery(sql);
 
             Collection<Salary> data = new ArrayList<>();
@@ -536,21 +551,38 @@ public class SalaryBill extends VerticalLayout
 
                 entry.setEname(rs.getString("ename"));
                 entry.setEid(rs.getInt("eid"));
-                entry.setBase_sal(rs.getInt("base_sal"));
-                entry.setTds(rs.getInt("tds"));
-                entry.setTa(rs.getInt("ta"));
-                entry.setDa(rs.getInt("da"));
-                entry.setArrear(rs.getInt("arrear"));
-                entry.setHra(rs.getInt("hra"));
-                entry.setPay_date(null);
-                entry.setDeductions(rs.getInt("deductions"));
-                entry.setLicense_fee(rs.getInt("license_fee"));
+                entry.setBase_sal(rs.getFloat("base_sal"));
+                entry.setTds(rs.getFloat("tds"));
+                entry.setTa(rs.getFloat("ta"));
+                entry.setDa(rs.getFloat("da"));
+                entry.setArrear(rs.getFloat("arrear"));
+                entry.setHra(rs.getFloat("hra"));
+
+                if(filter.getValue() == null)
+                    entry.setPay_date(null);
+                else
+                    entry.setPay_date(rs.getDate("pay_date"));
+
+                entry.setDeductions(rs.getFloat("deductions"));
+                entry.setLicense_fee(rs.getFloat("license_fee"));
                 total = entry.getBase_sal() + entry.getTa() + entry.getArrear() + entry.getTds() + entry.getHra() + entry.getDa() - entry.getDeductions() - entry.getLicense_fee();
                 entry.setTotal(total);
 
+                if (entry.getPay_date() != null) {
+                    pd = entry.getPay_date();
 
-                total_salary += total;
-                total_tds += entry.getTds();
+
+                    LocalDate payDate = convertToLocalDateViaMillisecond(pd);
+
+                    if ((end.getValue().isAfter(payDate) || end.getValue().isEqual(payDate)) && (start.getValue().isBefore(payDate) || start.getValue().isEqual(payDate))) {
+
+                        total_salary += total;
+                        total_tds += entry.getTds();
+
+                        data.add(entry);
+
+                    }
+                }
 
                 data.add(entry);
             }

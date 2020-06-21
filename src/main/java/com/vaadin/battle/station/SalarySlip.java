@@ -39,7 +39,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.stream.Stream;
 
-@Route("SalarySlip")
+@Route(value = "SalarySlip", layout = MainView.class)
 public class SalarySlip extends VerticalLayout
 {
     String url = "jdbc:mysql://localhost:3306/dbmsendsem";
@@ -75,8 +75,8 @@ public class SalarySlip extends VerticalLayout
 
     Date pd = new Date();
 
-    int total_salary = 0;
-    int total_tds = 0;
+    float total_salary = 0;
+    float total_tds = 0;
 
     Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     String userName = "";
@@ -240,7 +240,7 @@ public class SalarySlip extends VerticalLayout
 
 
     private void fillSalaryGrid() {
-        int total = 0 ;
+        float total = 0 ;
 
         total_salary = 0;
         total_tds = 0;
@@ -264,15 +264,15 @@ public class SalarySlip extends VerticalLayout
 
                 entry.setEname(rs.getString("ename"));
                 entry.setEid(rs.getInt("eid"));
-                entry.setBase_sal(rs.getInt("base_sal"));
-                entry.setTds(rs.getInt("tds"));
-                entry.setTa(rs.getInt("ta"));
-                entry.setDa(rs.getInt("da"));
-                entry.setArrear(rs.getInt("arrear"));
-                entry.setHra(rs.getInt("hra"));
+                entry.setBase_sal(rs.getFloat("base_sal"));
+                entry.setTds(rs.getFloat("tds"));
+                entry.setTa(rs.getFloat("ta"));
+                entry.setDa(rs.getFloat("da"));
+                entry.setArrear(rs.getFloat("arrear"));
+                entry.setHra(rs.getFloat("hra"));
                 entry.setPay_date(rs.getDate("pay_date"));
-                entry.setDeductions(rs.getInt("deductions"));
-                entry.setLicense_fee(rs.getInt("license_fee"));
+                entry.setDeductions(rs.getFloat("deductions"));
+                entry.setLicense_fee(rs.getFloat("license_fee"));
                 total = entry.getBase_sal() + entry.getTa() + entry.getArrear() + entry.getTds() + entry.getHra() + entry.getDa() - entry.getDeductions() - entry.getLicense_fee();
                 entry.setTotal(total);
 
@@ -303,7 +303,7 @@ public class SalarySlip extends VerticalLayout
     }
     private void fillSalaryGridTotalPerHead()
     {
-        int total;
+        float total;
 
         total_salary = 0;
         total_tds = 0;
@@ -318,7 +318,7 @@ public class SalarySlip extends VerticalLayout
             Connection con = DriverManager.getConnection(url, user, pwd);
             Statement stmt = con.createStatement();
 
-            String sql = "select salary.eid, ename, SUM(base_sal) as base_sal, SUM(da) as da, SUM(ta) as ta, SUM(tds) as tds, SUM(license_fee) as license_fee, SUM(deductions) as deductions, SUM(arrear) as arrear, SUM(hra) as hra from salary inner join employees e on salary.eid = e.eid where e.eid = " + eid +" GROUP BY e.eid;";
+            String sql = "select salary.eid, ename, SUM(base_sal) as base_sal, SUM(da) as da, SUM(ta) as ta, SUM(tds) as tds, SUM(license_fee) as license_fee, SUM(deductions) as deductions, SUM(arrear) as arrear, SUM(hra) as hra from salary inner join employees e on salary.eid = e.eid where e.eid = " + eid +" and pay_date between '" +start.getValue() +"' and '"+ end.getValue()+ "' GROUP BY e.eid;";
             ResultSet rs = stmt.executeQuery(sql);
 
             Collection<Salary> data = new ArrayList<>();
@@ -332,15 +332,15 @@ public class SalarySlip extends VerticalLayout
 
                 entry.setEname(rs.getString("ename"));
                 entry.setEid(rs.getInt("eid"));
-                entry.setBase_sal(rs.getInt("base_sal"));
-                entry.setTds(rs.getInt("tds"));
-                entry.setTa(rs.getInt("ta"));
-                entry.setDa(rs.getInt("da"));
-                entry.setArrear(rs.getInt("arrear"));
-                entry.setHra(rs.getInt("hra"));
+                entry.setBase_sal(rs.getFloat("base_sal"));
+                entry.setTds(rs.getFloat("tds"));
+                entry.setTa(rs.getFloat("ta"));
+                entry.setDa(rs.getFloat("da"));
+                entry.setArrear(rs.getFloat("arrear"));
+                entry.setHra(rs.getFloat("hra"));
                 entry.setPay_date(null);
-                entry.setDeductions(rs.getInt("deductions"));
-                entry.setLicense_fee(rs.getInt("license_fee"));
+                entry.setDeductions(rs.getFloat("deductions"));
+                entry.setLicense_fee(rs.getFloat("license_fee"));
                 total = entry.getBase_sal() + entry.getTa() + entry.getArrear() + entry.getTds() + entry.getHra() + entry.getDa() - entry.getDeductions() - entry.getLicense_fee();
                 entry.setTotal(total);
 
