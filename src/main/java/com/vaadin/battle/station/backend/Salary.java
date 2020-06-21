@@ -1,28 +1,27 @@
 package com.vaadin.battle.station.backend;
 
 import java.util.Date;
-import java.util.Date;
 
 public class Salary
 {
     private int eid;
-    private int total;
+    private float total;
     private String ename;
-    private int base_sal;
+    private float base_sal;
     private Date pay_date;
-    private int da;
-    private int hra;
-    private int arrear;
-    private int ta;
-    private int tds;
-    private int license_fee;
-    private int deductions;
+    private float da;
+    private float hra;
+    private float arrear;
+    private float ta;
+    private float tds;
+    private float license_fee;
+    private float deductions;
 
-    public int getTotal() {
+    public float getTotal() {
         return total;
     }
 
-    public void setTotal(int total) {
+    public void setTotal(float total) {
         this.total = total;
     }
 
@@ -38,71 +37,68 @@ public class Salary
         return pay_date;
     }
 
-    public int getArrear() {
+    public float getArrear() {
         return arrear;
     }
 
-    public int getBase_sal(int base_sal) {
-        return this.base_sal;
-    }
 
-    public int getDa() {
+    public float getDa() {
         return da;
     }
 
-    public int getDeductions() {
+    public float getDeductions() {
         return deductions;
     }
 
-    public int setEid(int eid) {
-        return this.eid = eid;
+    public void setEid(int eid) {
+        this.eid = eid;
     }
 
-    public int getHra() {
+    public float getHra() {
         return hra;
     }
 
-    public int getLicense_fee() {
+    public float getLicense_fee() {
         return license_fee;
     }
 
-    public int getTa() {
+    public float getTa() {
         return ta;
     }
 
-    public int getTds() {
+    public float getTds() {
         return tds;
     }
 
-    public void setArrear(int arrear) {
+    public void setArrear(float arrear) {
         this.arrear = arrear;
     }
 
-    public void setBase_sal(int base_sal) {
+    public void setBase_sal(float base_sal) {
         this.base_sal = base_sal;
     }
 
-    public int getBase_sal() {
+    public float getBase_sal() {
         return base_sal;
     }
 
-    public void setDa(int da) {
+    public void setDa(float da) {
         this.da = da;
     }
 
-    public void setDeductions(int deductions) {
+    public void setDeductions(float deductions) {
         this.deductions = deductions;
     }
 
-    public int getEid() {
+    public float getEid() {
         return eid;
     }
 
-    public void setHra(int hra) {
+    public void setHra(float hra) {
         this.hra = hra;
     }
 
-    public void setLicense_fee(int license_fee) {
+    public void setLicense_fee(float license_fee) {
         this.license_fee = license_fee;
     }
 
@@ -110,11 +106,11 @@ public class Salary
         this.pay_date = pay_date;
     }
 
-    public void setTa(int ta) {
+    public void setTa(float ta) {
         this.ta = ta;
     }
 
-    public void setTds(int tds) {
+    public void setTds(float tds) {
         this.tds = tds;
     }
 

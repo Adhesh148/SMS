@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 @Route(value = "basic_sal", layout = MainView.class)
-@PageTitle("Basic Pay | Salary Management")
+@PageTitle("Basic Pay | SMS")
 public class BasicSalary extends VerticalLayout {
     String url = "jdbc:mysql://localhost:3306/dbmsendsem";
     String user = "dbmsendsem";

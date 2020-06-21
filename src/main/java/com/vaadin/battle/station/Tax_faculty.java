@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 @Route(value = "tax-view",layout = MainView.class)
-@PageTitle("Tax View | Salary Management System")
+@PageTitle("Tax View | SMS")
 public class Tax_faculty extends VerticalLayout {
     String url = "jdbc:mysql://localhost:3306/dbmsendsem";
     String user = "dbmsendsem";

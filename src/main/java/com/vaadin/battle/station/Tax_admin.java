@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 @Route(value = "tax-view-admin",layout = MainView.class)
-@PageTitle("Tax View | Salary Management System")
+@PageTitle("Tax View | SMS")
 public class Tax_admin extends VerticalLayout{
     String url = "jdbc:mysql://localhost:3306/dbmsendsem";
     String user = "dbmsendsem";
@@ -56,8 +56,9 @@ public class Tax_admin extends VerticalLayout{
     public void configureGrid(Grid<Tax> grid){
 //        grid.setColumnOrder(grid.getColumnByKey("eid").setHeader("EmployeeTable ID"), grid.getColumnByKey("base_sal").setHeader("EmployeeTable ID"),
 //                grid.getColumnByKey("gross_sal").setHeader("Gross Salary"),grid.getColumnByKey("TDS").setHeader("TDS"));
-        grid.getColumnByKey("eid").setHeader("EmployeeTable ID");
-        grid.getColumnByKey("ename").setHeader("EmployeeTable Name");
+        grid.setColumns("eid","ename","year","base_sal","gross_sal","tds");
+        grid.getColumnByKey("eid").setHeader("Employee ID");
+        grid.getColumnByKey("ename").setHeader("Employee Name");
         grid.getColumnByKey("base_sal").setHeader("Base Salary");
         grid.getColumnByKey("gross_sal").setHeader("Gross Salary");
         grid.getColumnByKey("tds").setHeader("TDS");

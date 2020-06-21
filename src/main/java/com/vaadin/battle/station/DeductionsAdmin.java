@@ -13,6 +13,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
+import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 import java.sql.Connection;
@@ -24,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 @Route(value = "deductions_a", layout = MainView.class)
+@PageTitle("Deductions | SMS")
 public class DeductionsAdmin extends VerticalLayout {
     String url = "jdbc:mysql://localhost:3306/dbmsendsem";
     String user = "dbmsendsem";
@@ -73,7 +75,7 @@ public class DeductionsAdmin extends VerticalLayout {
     }
 
     private void configureFilter(TextField filterText) {
-        filterText.setPlaceholder("Filter by employee name");
+        filterText.setPlaceholder("Filter by EName.");
         filterText.setClearButtonVisible(true);
         filterText.setValueChangeMode(ValueChangeMode.LAZY);
         filterText.addValueChangeListener(evt -> updateList());

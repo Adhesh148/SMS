@@ -99,13 +99,15 @@ font-weight:bold;
 }
 
 .password-form{
-     margin-top: 25px;
      padding-left: 30px;
      padding-top: 40px;
+     padding-bottom: 40px;
      border-width: thin 0.1em;
      border-style: solid;
      border-color:#E8E8E8;
      border-radius: 10px;
+     margin:auto;
+     margin-top: 100px;
 }
 
 .password-guideline{
@@ -143,5 +145,10 @@ font-weight:bold;
 .dashboard-card{
     margin-left: auto;
     margin-right: auto;
+}
+
+.rate-form-text{
+    padding-right: 40px;
+    padding-left : 30px;
 }
 

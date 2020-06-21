@@ -1,10 +1,10 @@
 package com.vaadin.battle.station;
 
+
 import com.vaadin.battle.station.backend.DashboardPayGrid;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.H4;
-import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 @Route(value = "dashboard_a", layout = MainView.class)
-@PageTitle("Dashboard | Boiler Plate")
+@PageTitle("Dashboard | SMS")
 public class DashboardAdmin extends VerticalLayout {
     String url = "jdbc:mysql://localhost:3306/dbmsendsem";
     String user = "dbmsendsem";
@@ -135,7 +135,7 @@ public class DashboardAdmin extends VerticalLayout {
         payGrid.getColumnByKey("year").setHeader("Year");
 
         payGrid.setSortableColumns();
-//        scheduleGrid.setHeightByRows(true);
+        payGrid.setHeightByRows(true);
     }
 
     private void fillPayGrid() {

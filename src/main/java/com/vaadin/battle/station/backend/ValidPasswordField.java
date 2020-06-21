@@ -1,4 +1,4 @@
-package com.vaadin.battle.station;
+package com.vaadin.battle.station.backend;
 
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.data.binder.Binder;

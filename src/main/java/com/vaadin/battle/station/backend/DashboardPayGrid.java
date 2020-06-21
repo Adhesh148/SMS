@@ -1,4 +1,4 @@
-package com.vaadin.battle.station;
+package com.vaadin.battle.station.backend;
 
 public class DashboardPayGrid {
     private int eid;
