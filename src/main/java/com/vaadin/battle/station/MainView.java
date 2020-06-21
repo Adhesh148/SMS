@@ -73,13 +73,14 @@ public class MainView extends AppLayout {
         RouterLink dashboard_a = new RouterLink("Dashboard", DashboardAdmin.class);
         RouterLink dashboard_u = new RouterLink("Dashboard", DashboardUser.class);
         RouterLink salaryBill = new RouterLink("SalaryBill", SalaryBill.class);
+        RouterLink salarySlip = new RouterLink("SalarySlip", SalarySlip.class);
 
         home.addClassName("router-link");
         dashboard_a.addClassName("router-link");
         dashboard_u.addClassName("router-link");
 
         if (role.equalsIgnoreCase("Admin")) {
-            addToDrawer(new VerticalLayout(home, dashboard_a, salaryBill));
+            addToDrawer(new VerticalLayout(home, dashboard_a, salaryBill, salarySlip));
         } else if (role.equalsIgnoreCase("User")) {
             addToDrawer(new VerticalLayout(home, dashboard_u));
         }
