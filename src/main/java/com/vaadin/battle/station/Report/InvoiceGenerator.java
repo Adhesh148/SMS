@@ -69,6 +69,7 @@ public class InvoiceGenerator {
         // Create the PDF
         try {
             PdfDocument pdf = new PdfDocument(new PdfWriter(DEST));
+
             Document document = new Document(pdf);
 
             Font regular = new Font(Font.HELVETICA, 12);

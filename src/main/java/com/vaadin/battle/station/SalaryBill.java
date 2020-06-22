@@ -57,6 +57,10 @@ public class SalaryBill extends VerticalLayout
     ComboBox filter = new ComboBox("Search by name");
     ComboBox idFilter = new ComboBox("Search by id");
 
+    Button thisMonth = new Button("THIS MONTH");
+    Button prevMonth = new Button("PREV MONTH");
+    Button nextMonth = new Button("NEXT MONTH");
+
     Button button = new Button("Show All");
     Button half1 = new Button("JAN " + LocalDate.now().getYear() + " - JUN " + LocalDate.now().getYear());
     Button half2 = new Button("JUL " + LocalDate.now().getYear()+ "- DEC " + LocalDate.now().getYear());
@@ -96,6 +100,9 @@ public class SalaryBill extends VerticalLayout
         updateComboBox(filter);
         updateIDComboBox(idFilter);
 
+        prevMonth.setEnabled(false);
+        nextMonth.setEnabled(false);
+
         start.setValue(LocalDate.now());
         start.setLabel("From");
 
@@ -106,10 +113,15 @@ public class SalaryBill extends VerticalLayout
 
         start.addValueChangeListener(e -> end.setEnabled(true));
         start.addValueChangeListener(e -> end.setMin(start.getValue()));
+        start.addValueChangeListener(e -> nextMonth.setEnabled(false));
+        start.addValueChangeListener(e -> prevMonth.setEnabled(false));
         start.addValueChangeListener(e -> fillSalaryGridFilter(filter));
         start.addValueChangeListener(e -> fillSalaryGridFilter(filter));
+        start.addValueChangeListener(e -> textUpdate());
         end.addValueChangeListener(e -> fillSalaryGridFilter(filter));
         end.addValueChangeListener(e -> fillSalaryGridFilter(filter));
+        end.addValueChangeListener(e -> nextMonth.setEnabled(false));
+        end.addValueChangeListener(e -> prevMonth.setEnabled(false));
         end.addValueChangeListener(e -> textUpdate());
 
         LocalDate thisYear = LocalDate.now();
@@ -162,26 +174,53 @@ public class SalaryBill extends VerticalLayout
         prevHalf22.addThemeName(Lumo.LIGHT);
 
 
-        prevFull.addClickListener(e -> start.setValue(h11.minusYears(1)));
-        prevFull.addClickListener(e -> start.setValue(h11.minusYears(1)));
-        prevFull.addClickListener(e -> end.setValue(h22.minusYears(1)));
-        prevFull.addClickListener(e -> end.setValue(h22.minusYears(1)));
+        prevFull.addClickListener(e -> start.setValue(h11.plusMonths(3).minusYears(1)));
+        prevFull.addClickListener(e -> start.setValue(h11.plusMonths(3).minusYears(1)));
+        prevFull.addClickListener(e -> end.setValue(start.getValue().plusMonths(12).minusDays(1)));
+        prevFull.addClickListener(e -> end.setValue(start.getValue().plusMonths(12).minusDays(1)));
         prevFull.addClickListener(e -> fillSalaryGridFilter(filter));
         prevFull.addThemeName(Lumo.LIGHT);
 
-        prevFull2.addClickListener(e -> start.setValue(h11.minusYears(2)));
-        prevFull2.addClickListener(e -> start.setValue(h11.minusYears(2)));
-        prevFull2.addClickListener(e -> end.setValue(h22.minusYears(2)));
-        prevFull2.addClickListener(e -> end.setValue(h22.minusYears(2)));
+        prevFull2.addClickListener(e -> start.setValue(h11.plusMonths(3).minusYears(2)));
+        prevFull2.addClickListener(e -> start.setValue(h11.plusMonths(3).minusYears(2)));
+        prevFull2.addClickListener(e -> end.setValue(start.getValue().plusMonths(12).minusDays(1)));
+        prevFull2.addClickListener(e -> end.setValue(start.getValue().plusMonths(12).minusDays(1)));
         prevFull2.addClickListener(e -> fillSalaryGridFilter(filter));
         prevFull2.addThemeName(Lumo.LIGHT);
 
-        full.addClickListener(e -> start.setValue(h11));
-        full.addClickListener(e -> start.setValue(h11));
-        full.addClickListener(e -> end.setValue(h22));
-        full.addClickListener(e -> end.setValue(h22));
+        full.addClickListener(e -> start.setValue(h11.plusMonths(3)));
+        full.addClickListener(e -> start.setValue(h11.plusMonths(3)));
+        full.addClickListener(e -> end.setValue(start.getValue().plusMonths(12).minusDays(1)));
+        full.addClickListener(e -> end.setValue(start.getValue().plusMonths(12).minusDays(1)));
         full.addClickListener(e -> fillSalaryGridFilter(filter));
         full.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+
+        LocalDate month1 = LocalDate.of(thisYear.getYear(), thisYear.getMonth(), 01);
+        LocalDate month2 = thisYear.withDayOfMonth(thisYear.lengthOfMonth());
+
+        thisMonth.addClickListener(e -> start.setValue(month1));
+        thisMonth.addClickListener(e -> end.setValue(month2));
+        thisMonth.addClickListener(e -> nextMonth.setEnabled(true));
+        thisMonth.addClickListener(e -> prevMonth.setEnabled(true));
+        thisMonth.addClickListener(e -> fillSalaryGrid());
+        thisMonth.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+
+        prevMonth.addClickListener(e -> start.setValue(start.getValue().minusMonths(1)));
+        prevMonth.addClickListener(e -> end.setValue(start.getValue().plusMonths(1).minusDays(1)));
+        nextMonth.addClickListener(e -> start.setValue(start.getValue().plusMonths(1)));
+        nextMonth.addClickListener(e -> end.setValue(start.getValue().plusMonths(1).minusDays(1)));
+
+
+        prevMonth.addClickListener(e -> prevMonth.setEnabled(true));
+        prevMonth.addClickListener(e -> nextMonth.setEnabled(true));
+        prevMonth.addClickListener(e -> fillSalaryGrid());
+        prevMonth.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+
+
+        nextMonth.addClickListener(e -> prevMonth.setEnabled(true));
+        nextMonth.addClickListener(e -> nextMonth.setEnabled(true));
+        nextMonth.addClickListener(e -> fillSalaryGrid());
+        nextMonth.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
 
 
@@ -201,11 +240,11 @@ public class SalaryBill extends VerticalLayout
         filterLine.setAlignItems(Alignment.BASELINE);
 
         HorizontalLayout dateLine = new HorizontalLayout();
-        dateLine.add(start, end, prevFull2, prevFull, full);
+        dateLine.add(start, end, prevFull2, prevFull, full, thisMonth);
         dateLine.setAlignItems(Alignment.BASELINE);
 
         HorizontalLayout dateLine2 = new HorizontalLayout();
-        dateLine2.add(prevHalf12, prevHalf22, prevHalf1, prevHalf2, half1, half2);
+        dateLine2.add(half1, half2);
 
         show_total.addClickListener(e -> fillSalaryGridTotalPerHead());
         show_total.addClickListener(e -> fillSalaryGridTotalPerHead());
@@ -213,7 +252,7 @@ public class SalaryBill extends VerticalLayout
         show_month.addClickListener(e -> fillSalaryGridFilter(filter));
         show_month.addClickListener(e -> fillSalaryGridFilter(filter));
 
-        add(Title, SALARY, new VerticalLayout(dateLine, dateLine2, filterLine), new HorizontalLayout(show_total, show_month), salaryGrid);
+        add(Title, SALARY, TDS,new VerticalLayout(dateLine, dateLine2, filterLine), new HorizontalLayout(show_total, show_month),new HorizontalLayout(prevMonth, nextMonth), salaryGrid);
     }
 
     private void fillSalaryGridFilter(ComboBox filter)
@@ -348,7 +387,7 @@ public class SalaryBill extends VerticalLayout
 
     private void textUpdate()
     {
-        SALARY.setText("TOTAL SALARY = " + total_salary + "     ");
+        SALARY.setText("TOTAL SALARY = " + total_salary + " | ");
         TDS.setText("TOTAL TDS = " + total_tds);
 
     }

@@ -42,7 +42,7 @@ import java.util.Date;
 import java.util.stream.Stream;
 
 @Route(value = "SalarySlip", layout = MainView.class)
-@PageTitle("Salary Slip | SMS")
+@PageTitle("Pay Slip | SMS")
 public class SalarySlip extends VerticalLayout
 {
     String url = "jdbc:mysql://localhost:3306/dbmsendsem";
@@ -62,6 +62,7 @@ public class SalarySlip extends VerticalLayout
     Button half1 = new Button("JAN " + LocalDate.now().getYear() + " - JUN " + LocalDate.now().getYear());
     Button half2 = new Button("JUL " + LocalDate.now().getYear()+ " - DEC " + LocalDate.now().getYear());
     Button full = new Button(String.valueOf(LocalDate.now().getYear()));
+    Button prevFull = new Button(String.valueOf(LocalDate.now().minusYears(1).getYear()));
 
     Button thisMonth = new Button("THIS MONTH");
     Button prevMonth = new Button("PREV MONTH");
@@ -143,12 +144,19 @@ public class SalarySlip extends VerticalLayout
         half2.addClickListener(e -> end.setValue(h22));
         half2.addThemeName(Lumo.LIGHT);
 
-        full.addClickListener(e -> start.setValue(h11));
-        full.addClickListener(e -> start.setValue(h11));
-        full.addClickListener(e -> end.setValue(h22));
-        full.addClickListener(e -> end.setValue(h22));
+        full.addClickListener(e -> start.setValue(h11.plusMonths(3)));
+        full.addClickListener(e -> start.setValue(h11.plusMonths(3)));
+        full.addClickListener(e -> end.setValue(start.getValue().plusMonths(12).minusDays(1)));
+        full.addClickListener(e -> end.setValue(start.getValue().plusMonths(12).minusDays(1)));
         full.addClickListener(e -> fillSalaryGrid());
-        full.addThemeName(Lumo.LIGHT);
+        full.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+
+        prevFull.addClickListener(e -> start.setValue(h11.plusMonths(3).minusYears(1)));
+        prevFull.addClickListener(e -> start.setValue(h11.plusMonths(3).minusYears(1)));
+        prevFull.addClickListener(e -> end.setValue(start.getValue().plusMonths(12).minusDays(1)));
+        prevFull.addClickListener(e -> end.setValue(start.getValue().plusMonths(12).minusDays(1)));
+        prevFull.addClickListener(e -> fillSalaryGrid());
+        prevFull.addThemeName(Lumo.LIGHT);
 
 
         button.addClickListener(e -> fillSalaryGrid());
@@ -192,11 +200,11 @@ public class SalarySlip extends VerticalLayout
         filterLine.setAlignItems(Alignment.BASELINE);
 
         HorizontalLayout dateLine = new HorizontalLayout();
-        dateLine.add(start, end, half1, half2, full, thisMonth);
+        dateLine.add(start, end, prevFull, full, thisMonth);
         dateLine.setAlignItems(Alignment.BASELINE);
 
 
-        add(Title, SALARY, dateLine, new HorizontalLayout(prevMonth, nextMonth), new HorizontalLayout(show_total, show_month),salaryGrid);
+        add(Title, SALARY, dateLine, new HorizontalLayout(show_total, show_month), new HorizontalLayout(prevMonth, nextMonth),salaryGrid);
     }
 
 
