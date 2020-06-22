@@ -1,5 +1,6 @@
 package com.vaadin.battle.station;
 
+import com.vaadin.battle.station.Report.TryReport;
 import com.vaadin.battle.station.security.MyUserDetails;
 import com.vaadin.componentfactory.ToggleButton;
 import com.vaadin.flow.component.Key;
@@ -80,6 +81,7 @@ public class MainView extends AppLayout {
         RouterLink sal_u = new RouterLink("Pay Slip",SalarySlip.class);
         RouterLink personal_info = new RouterLink("Edit Personal Information",EditPersonalInfo.class);
         RouterLink quarters_a = new RouterLink("Quarters",QuarterView.class);
+        RouterLink print_bill = new RouterLink("Generate Invoice", TryReport.class);
 
         home.addClassName("router-link");
         dashboard_a.addClassName("router-link");
@@ -95,6 +97,7 @@ public class MainView extends AppLayout {
         sal_u.addClassName("router-link");
         personal_info.addClassName("router-link");
         quarters_a.addClassName("router-link");
+        print_bill.addClassName("router-link");
 
         Accordion userDetails = new Accordion();
         VerticalLayout accordion_children = new VerticalLayout();
@@ -104,7 +107,7 @@ public class MainView extends AppLayout {
         if (role.equalsIgnoreCase("Admin")) {
             addToDrawer(new VerticalLayout(home, dashboard_a,empl_a,basic_sal,rate_a,quarters_a,deductions,salBill,tax_a,tax_a,userDetails));
         } else if (role.equalsIgnoreCase("User")) {
-            addToDrawer(new VerticalLayout(home,sal_u,rate_u,tax_u,userDetails));
+            addToDrawer(new VerticalLayout(home,sal_u,rate_u,tax_u,print_bill,userDetails));
         }
     }
 
