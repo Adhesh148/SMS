@@ -20,7 +20,7 @@ public class InvoiceGenerator {
     String user = "dbmsendsem";
     String pwd = "Password_123";
 
-    public static final String DEST = "/home/adheshreghu/Documents/hello.pdf";
+    public static final String DEST = "/home/adheshreghu/Documents/invoice.pdf";
     public void createPDF(int eid){
         float baseSal = 0;
         float da =0;
@@ -156,8 +156,6 @@ public class InvoiceGenerator {
             document.add(thank);
 
             document.close();
-
-            System.out.println("Awesome PDF just got created.");
 
 
 //

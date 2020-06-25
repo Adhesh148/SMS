@@ -6,6 +6,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Hr;
 import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
@@ -33,6 +34,7 @@ public class TryReport extends VerticalLayout {
 
         tryButton.addClickListener(buttonClickEvent -> {
             invoiceGenerator.createPDF(eid);
+            Notification.show("Invoice Successfully Generated");
         });
 
         Label msg = new Label("Click on the button to generate Invoice of Last Month's Payment");
